@@ -29,18 +29,27 @@ namespace Browser
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MyBrowser));
             this.topButtonStrip = new System.Windows.Forms.ToolStrip();
             this.backButton = new System.Windows.Forms.ToolStripButton();
             this.forwardButton = new System.Windows.Forms.ToolStripButton();
             this.refreshButton = new System.Windows.Forms.ToolStripButton();
+            this.stopButton = new System.Windows.Forms.ToolStripButton();
             this.homeButton = new System.Windows.Forms.ToolStripButton();
             this.searchBox = new System.Windows.Forms.ToolStripTextBox();
             this.searchButton = new System.Windows.Forms.ToolStripButton();
             this.addButton = new System.Windows.Forms.ToolStripButton();
             this.deleteButton = new System.Windows.Forms.ToolStripButton();
+            this.addBookmarkButton = new System.Windows.Forms.ToolStripButton();
+            this.dropButton = new System.Windows.Forms.ToolStripDropDownButton();
+            this.bookmarkButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.historyButton = new System.Windows.Forms.ToolStripMenuItem();
             this.tabController = new System.Windows.Forms.TabControl();
+            this.deleteHistoryMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteBookmarkButton = new System.Windows.Forms.ToolStripMenuItem();
             this.topButtonStrip.SuspendLayout();
+            this.deleteHistoryMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // topButtonStrip
@@ -50,14 +59,17 @@ namespace Browser
             this.backButton,
             this.forwardButton,
             this.refreshButton,
+            this.stopButton,
             this.homeButton,
             this.searchBox,
             this.searchButton,
             this.addButton,
-            this.deleteButton});
+            this.deleteButton,
+            this.addBookmarkButton,
+            this.dropButton});
             this.topButtonStrip.Location = new System.Drawing.Point(0, 0);
             this.topButtonStrip.Name = "topButtonStrip";
-            this.topButtonStrip.Size = new System.Drawing.Size(1103, 27);
+            this.topButtonStrip.Size = new System.Drawing.Size(1105, 27);
             this.topButtonStrip.TabIndex = 0;
             this.topButtonStrip.Text = "toolStrip1";
             // 
@@ -68,7 +80,7 @@ namespace Browser
             this.backButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.backButton.Name = "backButton";
             this.backButton.Size = new System.Drawing.Size(29, 24);
-            this.backButton.Text = "toolStripButton1";
+            this.backButton.Text = "Нажмите, чтобы вернуться";
             this.backButton.Click += new System.EventHandler(this.BackButton_Click);
             // 
             // forwardButton
@@ -78,7 +90,7 @@ namespace Browser
             this.forwardButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.forwardButton.Name = "forwardButton";
             this.forwardButton.Size = new System.Drawing.Size(29, 24);
-            this.forwardButton.Text = "toolStripButton2";
+            this.forwardButton.Text = "Нажмите, чтобы перейти вперед";
             this.forwardButton.Click += new System.EventHandler(this.ForwardButton_Click);
             // 
             // refreshButton
@@ -88,8 +100,18 @@ namespace Browser
             this.refreshButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(29, 24);
-            this.refreshButton.Text = "toolStripButton3";
+            this.refreshButton.Text = "Обновить эту страницу";
             this.refreshButton.Click += new System.EventHandler(this.RefreshButton_Click);
+            // 
+            // stopButton
+            // 
+            this.stopButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.stopButton.Image = ((System.Drawing.Image)(resources.GetObject("stopButton.Image")));
+            this.stopButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.stopButton.Name = "stopButton";
+            this.stopButton.Size = new System.Drawing.Size(29, 24);
+            this.stopButton.Text = "Остановить загрузку этой страницы";
+            this.stopButton.Click += new System.EventHandler(this.StopButton_Click);
             // 
             // homeButton
             // 
@@ -98,7 +120,7 @@ namespace Browser
             this.homeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.homeButton.Name = "homeButton";
             this.homeButton.Size = new System.Drawing.Size(29, 24);
-            this.homeButton.Text = "toolStripButton4";
+            this.homeButton.Text = "Перейти на главную страницу";
             this.homeButton.Click += new System.EventHandler(this.HomeButton_Click);
             // 
             // searchBox
@@ -115,7 +137,7 @@ namespace Browser
             this.searchButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(29, 24);
-            this.searchButton.Text = "toolStripButton5";
+            this.searchButton.Text = "Поиск";
             this.searchButton.Click += new System.EventHandler(this.SearchButton_Click);
             // 
             // addButton
@@ -125,7 +147,7 @@ namespace Browser
             this.addButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(29, 24);
-            this.addButton.Text = "toolStripButton6";
+            this.addButton.Text = "Новая вкладка";
             this.addButton.Click += new System.EventHandler(this.AddButton_Click);
             // 
             // deleteButton
@@ -135,8 +157,44 @@ namespace Browser
             this.deleteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(29, 24);
-            this.deleteButton.Text = "toolStripButton7";
+            this.deleteButton.Text = "Удалить эту вкладку";
             this.deleteButton.Click += new System.EventHandler(this.DeleteButton_Click);
+            // 
+            // addBookmarkButton
+            // 
+            this.addBookmarkButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.addBookmarkButton.Image = ((System.Drawing.Image)(resources.GetObject("addBookmarkButton.Image")));
+            this.addBookmarkButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.addBookmarkButton.Name = "addBookmarkButton";
+            this.addBookmarkButton.Size = new System.Drawing.Size(29, 24);
+            this.addBookmarkButton.Text = "Добавить эту страницу в закладки";
+            this.addBookmarkButton.Click += new System.EventHandler(this.AddBookmarkButton_Click);
+            // 
+            // dropButton
+            // 
+            this.dropButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.dropButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bookmarkButton,
+            this.historyButton});
+            this.dropButton.Image = ((System.Drawing.Image)(resources.GetObject("dropButton.Image")));
+            this.dropButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.dropButton.Name = "dropButton";
+            this.dropButton.Size = new System.Drawing.Size(34, 24);
+            this.dropButton.Text = "Ещё...";
+            // 
+            // bookmarkButton
+            // 
+            this.bookmarkButton.Name = "bookmarkButton";
+            this.bookmarkButton.Size = new System.Drawing.Size(155, 26);
+            this.bookmarkButton.Text = "Закладки";
+            this.bookmarkButton.Click += new System.EventHandler(this.BookmarkButton_Click);
+            // 
+            // historyButton
+            // 
+            this.historyButton.Name = "historyButton";
+            this.historyButton.Size = new System.Drawing.Size(155, 26);
+            this.historyButton.Text = "История";
+            this.historyButton.Click += new System.EventHandler(this.HistoryButton_Click);
             // 
             // tabController
             // 
@@ -144,14 +202,30 @@ namespace Browser
             this.tabController.Location = new System.Drawing.Point(0, 27);
             this.tabController.Name = "tabController";
             this.tabController.SelectedIndex = 0;
-            this.tabController.Size = new System.Drawing.Size(1103, 533);
+            this.tabController.Size = new System.Drawing.Size(1105, 578);
             this.tabController.TabIndex = 1;
+            // 
+            // deleteHistoryMenu
+            // 
+            this.deleteHistoryMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.deleteHistoryMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteBookmarkButton});
+            this.deleteHistoryMenu.Name = "deleteHistoryMenu";
+            this.deleteHistoryMenu.Size = new System.Drawing.Size(211, 56);
+            this.deleteHistoryMenu.Text = "deleteHistoryMenu";
+            // 
+            // deleteBookmarkButton
+            // 
+            this.deleteBookmarkButton.Name = "deleteBookmarkButton";
+            this.deleteBookmarkButton.Size = new System.Drawing.Size(210, 24);
+            this.deleteBookmarkButton.Text = "Удалить";
+            this.deleteBookmarkButton.Click += new System.EventHandler(this.DeleteBookmarkButton_Click);
             // 
             // MyBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1103, 560);
+            this.ClientSize = new System.Drawing.Size(1105, 605);
             this.Controls.Add(this.tabController);
             this.Controls.Add(this.topButtonStrip);
             this.Name = "MyBrowser";
@@ -159,6 +233,7 @@ namespace Browser
             this.Load += new System.EventHandler(this.MyBrowser_Load);
             this.topButtonStrip.ResumeLayout(false);
             this.topButtonStrip.PerformLayout();
+            this.deleteHistoryMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -176,6 +251,13 @@ namespace Browser
         private System.Windows.Forms.ToolStripButton addButton;
         private System.Windows.Forms.ToolStripButton deleteButton;
         private System.Windows.Forms.TabControl tabController;
+        private System.Windows.Forms.ToolStripButton stopButton;
+        private System.Windows.Forms.ToolStripButton addBookmarkButton;
+        private System.Windows.Forms.ToolStripDropDownButton dropButton;
+        private System.Windows.Forms.ToolStripMenuItem bookmarkButton;
+        private System.Windows.Forms.ToolStripMenuItem historyButton;
+        private System.Windows.Forms.ContextMenuStrip deleteHistoryMenu;
+        private System.Windows.Forms.ToolStripMenuItem deleteBookmarkButton;
     }
 }
 

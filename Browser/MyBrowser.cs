@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Browser
 {
@@ -16,6 +17,9 @@ namespace Browser
         public MyBrowser()
         {
             InitializeComponent();
+
+            historyBox.Text = File.ReadAllText("history");
+            bookmarks.Items.AddRange(File.ReadAllLines("bookmarks"));
         }
 
         private void AddButton_Click(object sender, EventArgs e)
@@ -28,7 +32,7 @@ namespace Browser
             tabController.TabPages.Add("Новая вкладка");
             tabController.SelectTab(tabCounter);
             tabController.SelectedTab.Controls.Add(browser);
-            tabCounter += 1;
+            tabCounter++;
         }
 
         private void Browser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -41,6 +45,8 @@ namespace Browser
             if (searchBox.Text != null)
             {
                 ((WebBrowser)tabController.SelectedTab.Controls[0]).Navigate(searchBox.Text);
+                File.AppendAllText("history", searchBox.Text + "\n");
+                historyBox.Text = File.ReadAllText("history");
             }
         }
 
@@ -70,7 +76,7 @@ namespace Browser
             {
                 tabController.TabPages.RemoveAt(tabController.SelectedIndex);
                 tabController.SelectTab(tabController.TabPages.Count - 1);
-                tabCounter -= 1;
+                tabCounter--;
             }
             else
             {
@@ -83,6 +89,8 @@ namespace Browser
             if (e.KeyCode == Keys.Enter)
             {
                 ((WebBrowser)tabController.SelectedTab.Controls[0]).Navigate(searchBox.Text);
+                File.AppendAllText("history", searchBox.Text + "\n");
+                historyBox.Text = File.ReadAllText("history");
             }
         }
 
@@ -96,7 +104,51 @@ namespace Browser
             tabController.TabPages.Add("Новая вкладка");
             tabController.SelectTab(tabCounter);
             tabController.SelectedTab.Controls.Add(browser);
-            tabCounter += 1;
+            tabCounter++;
+        }
+
+        private void StopButton_Click(object sender, EventArgs e)
+        {
+            ((WebBrowser)tabController.SelectedTab.Controls[0]).Stop();
+        }
+
+        ListBox bookmarks = new ListBox();
+
+        private void BookmarkButton_Click(object sender, EventArgs e)
+        {
+            tabController.TabPages.Add("Закладки");
+            tabController.SelectTab(tabCounter);
+            tabController.SelectedTab.Controls.Add(bookmarks);
+            bookmarks.Dock = DockStyle.Fill;
+            bookmarks.ContextMenuStrip = deleteHistoryMenu;
+            tabCounter++;
+        }
+
+        private void AddBookmarkButton_Click(object sender, EventArgs e)
+        {
+            File.AppendAllText("bookmarks", tabController.SelectedTab.Text + "\n");
+            bookmarks.Items.Add(tabController.SelectedTab.Text + "\n");
+        }
+
+        private void DeleteBookmarkButton_Click(object sender, EventArgs e)
+        {
+            List<string> bookmarksContent = new List<string>();
+            bookmarksContent.AddRange(File.ReadAllLines("bookmarks"));
+            bookmarksContent.RemoveAt(bookmarks.SelectedIndex);
+            File.WriteAllLines("bookmarks", bookmarksContent);
+            bookmarks.Items.RemoveAt(bookmarks.SelectedIndex);
+        }
+
+        RichTextBox historyBox = new RichTextBox();
+
+        private void HistoryButton_Click(object sender, EventArgs e)
+        {
+            tabController.TabPages.Add("История");
+            tabController.SelectTab(tabCounter);
+            tabController.SelectedTab.Controls.Add(historyBox);
+            historyBox.Dock = DockStyle.Fill;
+            historyBox.ReadOnly = true;
+            tabCounter++;
         }
     }
 }
