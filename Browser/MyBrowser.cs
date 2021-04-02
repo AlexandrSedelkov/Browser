@@ -42,32 +42,49 @@ namespace Browser
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            if (searchBox.Text != null)
+            if (searchBox.Text != null && tabController.SelectedTab.Text != "История" && tabController.SelectedTab.Text != "Закладки")
             {
                 ((WebBrowser)tabController.SelectedTab.Controls[0]).Navigate(searchBox.Text);
                 File.AppendAllText("history", searchBox.Text + "\n");
                 historyBox.Text = File.ReadAllText("history");
             }
+            else { }
         }
 
         private void BackButton_Click(object sender, EventArgs e)
         {
-            ((WebBrowser)tabController.SelectedTab.Controls[0]).GoBack();
+            if (tabController.SelectedTab.Text != "Новая вкладка" && tabController.SelectedTab.Text != "История" && tabController.SelectedTab.Text != "Закладки")
+            {
+                ((WebBrowser)tabController.SelectedTab.Controls[0]).GoBack();
+            }
+            else { }
         }
 
         private void ForwardButton_Click(object sender, EventArgs e)
         {
-            ((WebBrowser)tabController.SelectedTab.Controls[0]).GoForward();
+            if (tabController.SelectedTab.Text != "Новая вкладка" && tabController.SelectedTab.Text != "История" && tabController.SelectedTab.Text != "Закладки")
+            {
+                ((WebBrowser)tabController.SelectedTab.Controls[0]).GoForward();
+            }
+            else { }
         }
 
         private void RefreshButton_Click(object sender, EventArgs e)
         {
-            ((WebBrowser)tabController.SelectedTab.Controls[0]).Refresh();
+            if (tabController.SelectedTab.Text != "История" && tabController.SelectedTab.Text != "Закладки")
+            {
+                ((WebBrowser)tabController.SelectedTab.Controls[0]).Refresh();
+            }
+            else { }
         }
 
         private void HomeButton_Click(object sender, EventArgs e)
         {
-            ((WebBrowser)tabController.SelectedTab.Controls[0]).GoHome();
+            if (tabController.SelectedTab.Text != "Новая вкладка" && tabController.SelectedTab.Text != "История" && tabController.SelectedTab.Text != "Закладки")
+            {
+                ((WebBrowser)tabController.SelectedTab.Controls[0]).GoHome();
+            }
+            else { }
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)
@@ -86,12 +103,13 @@ namespace Browser
 
         private void SearchBox_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter && searchBox.Text != null && tabController.SelectedTab.Text != "История" && tabController.SelectedTab.Text != "Закладки") 
             {
                 ((WebBrowser)tabController.SelectedTab.Controls[0]).Navigate(searchBox.Text);
                 File.AppendAllText("history", searchBox.Text + "\n");
                 historyBox.Text = File.ReadAllText("history");
             }
+            else { }
         }
 
         private void MyBrowser_Load(object sender, EventArgs e)
@@ -109,7 +127,11 @@ namespace Browser
 
         private void StopButton_Click(object sender, EventArgs e)
         {
-            ((WebBrowser)tabController.SelectedTab.Controls[0]).Stop();
+            if (tabController.SelectedTab.Text != "Новая вкладка" && tabController.SelectedTab.Text != "История" && tabController.SelectedTab.Text != "Закладки")
+            {
+                ((WebBrowser)tabController.SelectedTab.Controls[0]).Stop();
+            }
+            else { }
         }
 
         ListBox bookmarks = new ListBox();
@@ -132,11 +154,15 @@ namespace Browser
 
         private void DeleteBookmarkButton_Click(object sender, EventArgs e)
         {
-            List<string> bookmarksContent = new List<string>();
-            bookmarksContent.AddRange(File.ReadAllLines("bookmarks"));
-            bookmarksContent.RemoveAt(bookmarks.SelectedIndex);
-            File.WriteAllLines("bookmarks", bookmarksContent);
-            bookmarks.Items.RemoveAt(bookmarks.SelectedIndex);
+            try
+            {
+                List<string> bookmarksContent = new List<string>();
+                bookmarksContent.AddRange(File.ReadAllLines("bookmarks"));
+                bookmarksContent.RemoveAt(bookmarks.SelectedIndex);
+                File.WriteAllLines("bookmarks", bookmarksContent);
+                bookmarks.Items.RemoveAt(bookmarks.SelectedIndex);
+            }
+            catch { }
         }
 
         RichTextBox historyBox = new RichTextBox();
@@ -147,7 +173,6 @@ namespace Browser
             tabController.SelectTab(tabCounter);
             tabController.SelectedTab.Controls.Add(historyBox);
             historyBox.Dock = DockStyle.Fill;
-            historyBox.ReadOnly = true;
             tabCounter++;
         }
     }
