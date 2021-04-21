@@ -185,14 +185,14 @@ namespace Browser
             // bookmarkButton
             // 
             this.bookmarkButton.Name = "bookmarkButton";
-            this.bookmarkButton.Size = new System.Drawing.Size(155, 26);
+            this.bookmarkButton.Size = new System.Drawing.Size(224, 26);
             this.bookmarkButton.Text = "Закладки";
             this.bookmarkButton.Click += new System.EventHandler(this.BookmarkButton_Click);
             // 
             // historyButton
             // 
             this.historyButton.Name = "historyButton";
-            this.historyButton.Size = new System.Drawing.Size(155, 26);
+            this.historyButton.Size = new System.Drawing.Size(224, 26);
             this.historyButton.Text = "История";
             this.historyButton.Click += new System.EventHandler(this.HistoryButton_Click);
             // 
@@ -211,13 +211,13 @@ namespace Browser
             this.deleteHistoryMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteBookmarkButton});
             this.deleteHistoryMenu.Name = "deleteHistoryMenu";
-            this.deleteHistoryMenu.Size = new System.Drawing.Size(211, 56);
+            this.deleteHistoryMenu.Size = new System.Drawing.Size(135, 28);
             this.deleteHistoryMenu.Text = "deleteHistoryMenu";
             // 
             // deleteBookmarkButton
             // 
             this.deleteBookmarkButton.Name = "deleteBookmarkButton";
-            this.deleteBookmarkButton.Size = new System.Drawing.Size(210, 24);
+            this.deleteBookmarkButton.Size = new System.Drawing.Size(134, 24);
             this.deleteBookmarkButton.Text = "Удалить";
             this.deleteBookmarkButton.Click += new System.EventHandler(this.DeleteBookmarkButton_Click);
             // 
